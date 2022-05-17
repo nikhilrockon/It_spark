@@ -1,35 +1,33 @@
 const faq_model = require("../models/faq.model");
 
-function addQuestion(req,res){
-
+async function addQuestion(req,res){
+    const {question,answer} = req.body
+    const createquestion = await faq_model.create({question,answer})
+    res.json(createquestion)
 };
 
-function addAnswer(req,res){
 
+
+async function editQuestion(req,res){
+    const updatequestion = {
+        question:req.body.question,
+        answer:req.body.answer
+    } 
+    const updatedquestion = await faq_model.findByIdAndUpdate(req.params.id,{...updatequestion},{new:true})
+    res.json(updatedquestion)
 };
 
-function editQuestion(req,res){
 
+async function delQuestion(req,res){
+    const deletequestion = await faq_model.findByIdAndRemove(req.params.id)
+    res.json(deletequestion)
 };
 
-function editAnswer(req,res){
 
-};
-
-function delQuestion(req,res){
-
-};
-
-function delAnswer(req,res){
-
-};
 
 
 module.exports = {
     addQuestion,
-    addAnswer,
     editQuestion,
-    editAnswer,
     delQuestion,
-    delAnswer
 }

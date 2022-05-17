@@ -1,10 +1,20 @@
 const admin_model= require("../models/admin.model");
 
-function login(req,res){
-    const admin  = admin_model.find({
-        email:req.body.email
+async function login(req,res){
+    const {email,password} = req.body
+    const admin  = await admin_model.findOne({
+        email:email
     });
+    if(!admin){
+        res.json('user not fount')
+    }else{
+        let token = await admin.generateAuthToken()
+        res.json({
+            token:token
+        })
+    }
     // admin_model.find();
+   
 }
 
 async function signup(req,res){
@@ -15,13 +25,13 @@ async function signup(req,res){
     if(adminexist){
         res.status(400).json('this admin already exist')
     }else{
-        await admin_model.create({
+        const newUser = await admin_model.create({
             first_name:first_name,
             last_name:last_name,
             email:email,
             password:password
         })
-         res.send({req,res}); 
+         res.json(newUser);
        
     }
     //end

@@ -3,7 +3,12 @@ const app = express();
 const mongoose = require("mongoose");
 const adminRoutes = require('./routes/admin.routes');
 const testimonialRoutes = require('./routes/testimonial.route')
-
+const blog = require('./routes/blogRoute')
+const jobopening = require('./routes/carrersRoute')
+const contactdetails = require('./routes/contactRoute')
+const question = require('./routes/faqRoute')
+const service = require('./routes/serviceRoute')
+const team = require('./routes/teamRoute')
 mongoose.connect('mongodb://localhost:27017/itspark');
 mongoose.connection.on('error', err => {
     console.log(err);
@@ -11,7 +16,12 @@ mongoose.connection.on('error', err => {
 
   app.use(express.json());
 app.use('/admin',adminRoutes);
-
+app.use('/blog',blog)
+app.use('/job',jobopening)
+app.use('/contact',contactdetails)
+app.use('/question',question)
+app.use('/service',service)
+app.use('/team',team)
 //testimonial
 app.use('/testimonial',testimonialRoutes);
 
@@ -19,14 +29,7 @@ app.use('/testimonial',testimonialRoutes);
 
 const jwt = require("jsonwebtoken");
 
-const createToken = async() => {
 
-      const token = await jwt.sign({_id:"62710510d3f6ba5481709e48"}, "mynameiskeshavsuman");
-      console.log(token);
-
-}
-
-createToken();
 
 
 app.listen(2100,()=>{
